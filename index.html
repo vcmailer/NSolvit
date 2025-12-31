@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>NSolv - Enterprise Technology Delivery</title>
+  <meta name="description" content="Modern engineering for data-first applications. We specialize in App Modernization, Database Services, and AI Automation." />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+  <!-- OPEN GRAPH (Social Sharing) -->
+  <meta property="og:title" content="NSolv - Enterprise Technology Delivery" />
+  <meta property="og:description" content="Ship faster. Scale smarter. Full-stack delivery across App Dev, Database, and AI." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://nsolv.com" />
+  <!-- Replace content below with your actual screenshot URL -->
+  <meta property="og:image" content="https://placehold.co/1200x630/111827/22c55e?text=NSolv+Enterprise" />
+  
+  <!-- FAVICON -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>⚡</text></svg>">
+
+  <style>
+    /* --- CSS VARIABLES --- */
+    :root {
+      --accent: #22c55e;
+      --accent2: #0ea5e9;
+      --bg-body: radial-gradient(circle at 15% 50%, #111827 0, #020617 55%, #000 100%);
+      --bg-nav: rgba(2,6,23,0.9);
+      --bg-card: rgba(15,23,42,0.6);
+      --bg-matrix: rgba(15,23,42,0.8);
+      --bg-input: #ffffff; 
+      --text-main: #f9fafb;
+      --text-muted: #9ca3af;
+      --text-input: #020617;
+      --border: rgba(255,255,255,0.08);
+      --shadow: 0 20px 50px rgba(0,0,0,.45);
+      --pill-bg: rgba(34,197,94,0.1);
+      --pill-border: rgba(34,197,94,0.2);
+      --pill-text: #86efac;
+      --logo-shadow: drop-shadow(0 0 10px rgba(34,197,94,0.5));
+      --process-bg: rgba(15,23,42,0.3);
+      --process-step-bg: rgba(31, 41, 55, 0.4);
+      --max: 1120px;
+    }
+
+    /* BASE STYLES */
+    html { scroll-behavior: smooth; scroll-padding-top: 100px; }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    
+    body {
+      font-family: system-ui, -apple-system, sans-serif;
+      background: var(--bg-body);
+      background-size: 200% 200%;
+      animation: gradientPulse 15s ease infinite;
+      color: var(--text-main);
+      line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
+    }
+    @keyframes gradientPulse {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    a { color: inherit; text-decoration: none; transition: .3s cubic-bezier(0.4, 0, 0.2, 1); }
+    .shell { max-width: var(--max); margin: 0 auto; padding: 0 16px; }
+
+    /* UTILITIES */
+    .fade-up {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.8s ease-out, transform 0.8s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+    .delay-1 { transition-delay: 0.1s; }
+    .delay-2 { transition-delay: 0.2s; }
+    .delay-3 { transition-delay: 0.3s; }
+
+    .hidden { display: none !important; }
+    
+    /* Form Validation Styles */
+    .error-text { color: #ef4444; font-size: 0.8rem; margin-top: 4px; display: block; }
+    input.is-invalid, textarea.is-invalid, select.is-invalid { 
+      border-color: #ef4444 !important; 
+      box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.2); 
+    }
+    
+    /* Success/Error Box */
+    .status-box { padding: 12px; border-radius: 8px; margin-top: 16px; font-weight: 500; text-align: center; }
+    .status-box.success { background: rgba(34, 197, 94, 0.1); color: #4ade80; border: 1px solid rgba(34, 197, 94, 0.2); }
+    .status-box.error { background: rgba(239, 68, 68, 0.1); color: #f87171; border: 1px solid rgba(239, 68, 68, 0.2); }
+
+    /* HEADER */
+    header {
+      position: sticky; top: 0; z-index: 50;
+      backdrop-filter: blur(20px); background: var(--bg-nav);
+      border-bottom: 1px solid var(--border);
+    }
+    .nav { height: 80px; display: flex; align-items: center; justify-content: space-between; }
+    
+    .brand {
+      display: flex; align-items: center; gap: 4px;
+      font-weight: 800; letter-spacing: -0.02em; font-size: 2rem; line-height: 1;
+      color: var(--text-main); cursor: pointer;
+    }
+    .logo-svg {
+      width: 50px; height: 50px;
+      fill: none; stroke: url(#grad1); stroke-width: 12; stroke-linecap: square; stroke-linejoin: round;
+      filter: var(--logo-shadow); transition: transform 0.5s ease;
+    }
+    .brand:hover .logo-svg { transform: rotate(180deg); }
+
+    .links { display: flex; gap: 32px; align-items: center; }
+    .links a {
+      font-size: 0.95rem; font-weight: 600; text-transform: uppercase; 
+      color: var(--text-muted); position: relative; letter-spacing: 0.05em; padding-bottom: 6px;
+    }
+    .links a:hover, .links a.active { color: var(--text-main); }
+    .links a.active::after {
+      content: ''; position: absolute; left: 0; bottom: 0;
+      width: 100%; height: 2px; background: var(--accent);
+      box-shadow: 0 0 12px var(--accent); animation: widthGrow 0.3s ease-out;
+    }
+    @keyframes widthGrow { from { width: 0; } to { width: 100%; } }
+
+    .cta {
+      padding: 12px 28px; border-radius: 99px; font-weight: 700; font-size: 1rem; color: #020617;
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      transition: all 0.3s ease; position: relative; overflow: hidden; z-index: 1; border: none; cursor: pointer;
+    }
+    .cta::before {
+      content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+      transition: left 0.5s; z-index: -1;
+    }
+    .cta:hover::before { left: 100%; }
+    .cta:hover { transform: translateY(-3px); box-shadow: 0 10px 20px rgba(34,197,94,0.3); }
+
+    .hamburger { display: none; background: none; border: none; color: var(--text-main); font-size: 2rem; cursor: pointer; }
+    .drawer { display: none; position: fixed; inset: 80px 0 0 0; background: #020617; padding: 24px; border-top: 1px solid var(--border); z-index: 49; }
+    body.nav-open .drawer { display: block; }
+    .m-link { display: block; padding: 18px; font-size: 1.2rem; font-weight: 600; border-bottom: 1px solid var(--border); color: var(--text-main); }
+
+    .back-to-top {
+      position: fixed; bottom: 30px; right: 30px; width: 50px; height: 50px;
+      background: rgba(15,23,42,0.8); backdrop-filter: blur(5px);
+      border: 1px solid var(--border); color: var(--accent); border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.2rem; cursor: pointer; opacity: 0; visibility: hidden;
+      transform: translateY(20px); transition: all 0.4s; z-index: 99;
+    }
+    .back-to-top.show { opacity: 1; visibility: visible; transform: translateY(0); }
+    .back-to-top:hover { background: var(--accent); color: #000; border-color: var(--accent); }
+
+    /* HERO */
+    .hero { padding: 80px 0 60px; position: relative; overflow: hidden; }
+    .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+
+    .pill {
+      display: inline-flex; align-items: center; gap: 8px; padding: 8px 16px;
+      border-radius: 99px; background: var(--pill-bg); border: 1px solid var(--pill-border);
+      color: var(--pill-text); font-size: .85rem; margin-bottom: 24px; font-weight: 700;
+      letter-spacing: 0.05em; text-transform: uppercase;
+    }
+    h1 { font-size: clamp(3rem, 6vw, 4.8rem); line-height: 1.1; font-weight: 900; letter-spacing: -0.04em; margin-bottom: 24px; }
+    h1 span { background: linear-gradient(to right, #4ade80, #38bdf8); -webkit-background-clip: text; color: transparent; }
+    .sub { font-size: 1.2rem; color: var(--text-muted); max-width: 580px; margin-bottom: 40px; font-weight: 300; }
+
+    .hero-actions { display: flex; gap: 16px; margin-bottom: 48px; }
+    .btn-outline {
+      padding: 12px 32px; border-radius: 99px; font-weight: 600; color: var(--text-muted); font-size: 1rem;
+      border: 1px solid var(--border); background: transparent; transition: all 0.3s;
+    }
+    .btn-outline:hover { border-color: var(--accent2); color: #fff; background: rgba(14, 165, 233, 0.1); }
+
+    .stats-row { display: flex; gap: 20px; align-items: stretch; margin-top: 10px; }
+    .stats-group { display: flex; gap: 16px; flex: 1; }
+    .stat {
+      background: var(--bg-card); border: 1px solid var(--border);
+      border-radius: 16px; padding: 20px; flex: 1; text-align: center;
+      transition: transform 0.3s ease;
+    }
+    .stat:hover { transform: translateY(-5px); border-color: rgba(255,255,255,0.2); }
+    .stat strong { display: block; font-size: 1.8rem; color: #fff; line-height: 1.2; font-weight: 800; }
+    .stat span { font-size: .85rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* DASHBOARD */
+    .dash-container {
+      background: var(--bg-matrix); border: 1px solid var(--border);
+      border-radius: 24px; padding: 28px;
+      box-shadow: 0 0 60px rgba(34, 197, 94, 0.05); position: relative; overflow: hidden; margin-bottom: 24px;
+    }
+    .dash-top { display: flex; justify-content: space-between; margin-bottom: 24px; }
+    .chip {
+      display: inline-flex; align-items: center; gap: 8px; padding: 6px 14px;
+      background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);
+      border-radius: 99px; font-size: .8rem; color: #9ca3af; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+    .chip i { width: 8px; height: 8px; border-radius: 50%; background: var(--accent); box-shadow: 0 0 10px var(--accent); animation: pulseDot 2s infinite; }
+    @keyframes pulseDot { 0% { opacity: 0.5; } 50% { opacity: 1; } 100% { opacity: 0.5; } }
+
+    .matrix { background: rgba(0,0,0,0.2); border: 1px solid var(--border); border-radius: 16px; padding: 20px; }
+    .matrix-head { display: flex; justify-content: space-between; font-size: .85rem; font-weight: 600; color: var(--text-muted); margin-bottom: 16px; text-transform: uppercase; }
+    .grid-rows { display: grid; grid-template-columns: repeat(2, 1fr); gap: 16px; }
+    .cell {
+      background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.05);
+      border-radius: 12px; padding: 16px; transition: background 0.3s;
+    }
+    .cell:hover { background: rgba(255,255,255,0.06); }
+    .lbl { font-size: .8rem; color: var(--text-muted); margin-bottom: 6px; }
+    .val { font-size: 1rem; font-weight: 700; color: #fff; margin-bottom: 10px; }
+    .bar { height: 6px; background: rgba(255,255,255,0.1); border-radius: 99px; overflow: hidden; }
+    .bar span { display: block; height: 100%; background: linear-gradient(90deg, var(--accent), var(--accent2)); border-radius: 99px; }
+
+    .callout-under {
+      background: rgba(15,23,42,0.8); border: 1px solid rgba(255,255,255,0.1);
+      border-left: 4px solid var(--accent); border-radius: 16px; padding: 24px;
+    }
+    .callout-under strong { color: #fff; display: block; font-size: 1.2rem; margin-bottom: 8px; }
+
+    /* LOGO STRIP */
+    .logo-strip { padding: 40px 0; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); background: rgba(0,0,0,0.2); }
+    .logo-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(120px, 1fr)); gap: 32px; align-items: center; opacity: 0.5; }
+    .logo-item { font-weight: 700; font-size: 1.2rem; color: #fff; text-align: center; }
+
+    /* SECTIONS */
+    section { padding: 120px 0; }
+    .section-header { text-align: center; margin-bottom: 80px; }
+    .section-title { font-size: 3rem; margin-bottom: 16px; letter-spacing: -0.02em; }
+    .section-subtitle { font-size: 1.25rem; color: var(--text-muted); max-width: 700px; margin: 0 auto; font-weight: 300; }
+    
+    .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(340px, 1fr)); gap: 30px; }
+    .card {
+      background: var(--bg-card); border: 1px solid var(--border);
+      padding: 40px; border-radius: 24px; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+      position: relative; overflow: hidden;
+    }
+    .card:hover { transform: translateY(-10px); border-color: rgba(34,197,94,0.3); box-shadow: 0 20px 40px -10px rgba(0,0,0,0.5); }
+    .card::before {
+      content: ""; position: absolute; top: 0; left: 0; width: 100%; height: 4px;
+      background: linear-gradient(90deg, var(--accent), var(--accent2)); opacity: 0; transition: opacity 0.3s;
+    }
+    .card:hover::before { opacity: 1; }
+    .icon { font-size: 2.5rem; margin-bottom: 20px; display: inline-block; }
+    .card h3 { font-size: 1.5rem; margin-bottom: 10px; }
+    .tags { display: flex; gap: 8px; margin-top: 24px; flex-wrap: wrap; }
+    .tag { font-size: .75rem; padding: 6px 12px; border-radius: 6px; background: rgba(255,255,255,0.05); color: #9ca3af; border: 1px solid rgba(255,255,255,0.05); }
+
+    .process { background: var(--process-bg); padding: 120px 0; }
+    .process-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 4rem; }
+    .process-step {
+      text-align: center; padding: 3rem 2rem; background: var(--process-step-bg);
+      border-radius: 24px; border: 1px solid var(--border); transition: all 0.4s ease;
+    }
+    .process-step:hover { transform: translateY(-15px); border-color: var(--accent2); background: rgba(31, 41, 55, 0.8); }
+    .process-number {
+      width: 70px; height: 70px; border-radius: 50%;
+      background: #0f172a; border: 2px solid var(--accent);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.8rem; font-weight: 800; color: #fff; margin: 0 auto 1.5rem;
+      box-shadow: 0 0 20px rgba(34,197,94,0.2);
+    }
+
+    /* TEAM */
+    .team-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: center; }
+    .team-bio h3 { font-size: 2rem; margin-bottom: 20px; line-height: 1.1; }
+    .team-bio p { color: var(--text-muted); font-size: 1.1rem; margin-bottom: 30px; }
+    .quote-box {
+      border-left: 4px solid var(--accent); padding-left: 20px; margin-top: 30px; font-style: italic; color: #fff;
+    }
+    .team-cards { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+    @media(max-width: 600px) { .team-cards { grid-template-columns: 1fr; } }
+
+    .profile-card {
+      background: rgba(255,255,255,0.03); border: 1px solid var(--border);
+      padding: 20px; border-radius: 16px; transition: 0.3s;
+      display: flex; flex-direction: column; justify-content: space-between;
+    }
+    .profile-card:hover { background: rgba(255,255,255,0.07); transform: translateY(-5px); border-color: var(--accent); }
+    .p-header { display: flex; align-items: center; gap: 12px; margin-bottom: 16px; }
+    .avatar {
+      width: 48px; height: 48px; border-radius: 50%; 
+      background: linear-gradient(135deg, var(--accent), var(--accent2));
+      display: flex; align-items: center; justify-content: center;
+      font-weight: 700; color: #000; font-size: 1.1rem;
+    }
+    .p-role { font-size: 0.9rem; font-weight: 700; color: #fff; }
+    .p-exp { font-size: 0.8rem; color: var(--text-muted); }
+    .skill-list { display: flex; flex-wrap: wrap; gap: 6px; }
+    .s-tag { font-size: 0.7rem; padding: 4px 8px; background: rgba(0,0,0,0.3); border-radius: 4px; color: #9ca3af; border: 1px solid var(--border); }
+
+    /* CONTACT SECTION UPDATES */
+    .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: stretch; }
+    
+    .contact-left {
+      position: relative; /* Needed for pinning disclaimer */
+      padding-bottom: 60px; /* Space for disclaimer */
+      display: flex; flex-direction: column; justify-content: center;
+    }
+
+    .form-group { margin-bottom: 20px; }
+    input, textarea, select {
+      width: 100%; background: var(--bg-input); border: 2px solid transparent;
+      color: var(--text-input); padding: 16px; border-radius: 12px; font-family: inherit; font-size: 1rem; transition: all 0.3s;
+    }
+    input:focus, textarea:focus, select:focus { outline: none; border-color: var(--accent); transform: scale(1.01); box-shadow: 0 0 0 4px rgba(34,197,94,0.2); }
+    select option { background-color: #020617; color: #fff; }
+
+    /* Disclaimer Styling */
+    .recaptcha-legal {
+      position: absolute; bottom: 0; left: 0; width: 100%;
+      text-align: center; font-size: 0.75rem; color: var(--text-muted); opacity: 0.6;
+    }
+    .recaptcha-legal a { text-decoration: underline; }
+    .recaptcha-legal a:hover { color: var(--accent); }
+
+    footer {
+      border-top: 1px solid var(--border); padding: 60px 0; color: var(--text-muted); font-size: .9rem; background: #000;
+    }
+    .footer-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; text-align: left; }
+    .footer-col h4 { color: #fff; margin-bottom: 20px; font-size: 1.1rem; }
+    .footer-col ul { list-style: none; }
+    .footer-col li { margin-bottom: 10px; }
+    .footer-col a:hover { color: var(--accent); }
+
+    /* RESPONSIVE */
+    @media(max-width: 900px) {
+      .hero-grid { grid-template-columns: 1fr; text-align: left; }
+      .contact-grid, .team-grid { grid-template-columns: 1fr; gap: 40px; }
+      .contact-left { padding-bottom: 40px; }
+      .stats-row { flex-direction: column; }
+      .process-grid { grid-template-columns: 1fr; gap: 2rem; }
+      .grid-rows { grid-template-columns: 1fr; } 
+    }
+    @media(max-width: 768px) {
+      .links, .cta.desktop { display: none; }
+      .hamburger { display: block; }
+      h1 { font-size: 2.8rem; }
+    }
+  </style>
+
+  <!-- Google reCAPTCHA Script -->
+  <script src="https://www.google.com/recaptcha/api.js?render=explicit" async defer></script>
+
+</head>
+<body>
+
+<header>
+  <div class="shell">
+    <div class="nav">
+      <a href="#top" class="brand">
+        <svg class="logo-svg" viewBox="0 0 100 100">
+          <defs>
+            <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+              <stop offset="0%" style="stop-color:#22c55e;stop-opacity:1" />
+              <stop offset="100%" style="stop-color:#0ea5e9;stop-opacity:1" />
+            </linearGradient>
+          </defs>
+          <path d="M 20 85 L 20 15 L 80 85 L 80 15" />
+        </svg>
+        <span>Solv</span>
+      </a>
+      <div style="display:flex; align-items:center; gap:24px;">
+        <div class="links">
+          <a href="#services" class="nav-link">Services</a>
+          <a href="#process" class="nav-link">Process</a>
+          <a href="#team" class="nav-link">Team</a>
+          <a href="#contact" class="nav-link">Contact</a>
+        </div>
+        <a href="#contact" class="cta desktop">Start Project</a>
+        <button class="hamburger" id="navToggle">☰</button>
+      </div>
+    </div>
+  </div>
+</header>
+
+<a href="#top" class="back-to-top" id="backToTop">↑</a>
+
+<div class="drawer" id="mobileDrawer">
+  <a href="#services" class="m-link">Services</a>
+  <a href="#process" class="m-link">Process</a>
+  <a href="#team" class="m-link">Team</a>
+  <a href="#contact" class="m-link">Contact</a>
+</div>
+
+<main>
+  <!-- HERO SECTION -->
+  <section class="hero" id="top">
+    <div class="shell">
+      <div class="hero-grid">
+        <div class="fade-up delay-1">
+          <div class="pill">● Enterprise-Grade Delivery</div>
+          <h1>Modern engineering for <span>data-first applications.</span></h1>
+          <p class="sub">Design, build, and operate resilient platforms for application development, databases, Salesforce, analytics, and bots.</p>
+          <div class="hero-actions">
+            <a href="#contact" class="cta">Start Project →</a>
+            <a href="#services" class="btn-outline">Services</a>
+          </div>
+          <div class="stats-row">
+            <div class="stats-group">
+              <div class="stat"><strong>50+</strong><span>Projects</span></div>
+              <div class="stat"><strong>99.9%</strong><span>Uptime</span></div>
+            </div>
+            <div class="stats-group">
+              <div class="stat"><strong>12w</strong><span>Time-to-Value</span></div>
+            </div>
+          </div>
+        </div>
+
+        <div class="fade-up delay-2">
+          <div class="dash-container">
+            <div class="dash-top">
+              <div class="chip"><i></i> Live delivery radar</div>
+              <div class="chip">Multi‑cloud &amp; on‑prem</div>
+            </div>
+            <div class="matrix">
+              <div class="matrix-head"><span>Delivery streams</span><span>Realtime Status</span></div>
+              <div class="grid-rows">
+                <div class="cell"><div class="lbl">App development</div><div class="val">Sprint 14</div><div class="bar"><span style="width:78%"></span></div></div>
+                <div class="cell"><div class="lbl">Database &amp; admin</div><div class="val">Planned change</div><div class="bar"><span style="width:60%"></span></div></div>
+                <div class="cell"><div class="lbl">Salesforce</div><div class="val">Release window</div><div class="bar"><span style="width:54%"></span></div></div>
+                <div class="cell"><div class="lbl">Reporting &amp; BI</div><div class="val">Model refresh</div><div class="bar"><span style="width:64%"></span></div></div>
+                <div class="cell"><div class="lbl">Bots &amp; automation</div><div class="val">Live workflows</div><div class="bar"><span style="width:72%"></span></div></div>
+                <div class="cell"><div class="lbl">Architecture &amp; PMO</div><div class="val">Portfolio view</div><div class="bar"><span style="width:90%"></span></div></div>
+              </div>
+            </div>
+            <div style="margin-top:16px; font-size:0.85rem; color:var(--text-muted); display:flex; justify-content:space-between;">
+              <span>• Observability‑ready pipelines</span><span>Secure by design ▾</span>
+            </div>
+          </div>
+          <div class="callout-under">
+            <strong>Ship faster. Scale smarter.</strong>
+            <p>Full-stack delivery across App Dev, Database, Salesforce & AI.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRUST SIGNALS -->
+  <div class="logo-strip fade-up">
+    <div class="shell">
+      <div class="logo-grid">
+        <div class="logo-item">FINANCE</div>
+        <div class="logo-item">HEALTHCARE</div>
+        <div class="logo-item">ENERGY</div>
+        <div class="logo-item">RETAIL</div>
+        <div class="logo-item">GOV</div>
+      </div>
+    </div>
+  </div>
+
+  <section class="process" id="process">
+    <div class="shell">
+      <div class="section-header fade-up">
+        <h2 class="section-title">Simple. Proven. Repeatable.</h2>
+        <p class="section-subtitle">Our delivery process scales from single integrations to enterprise transformations.</p>
+      </div>
+      <div class="process-grid">
+        <div class="process-step fade-up delay-1">
+          <div class="process-number">1</div>
+          <h3>Discovery</h3>
+          <p>Architecture review, roadmap planning, and success metrics definition.</p>
+        </div>
+        <div class="process-step fade-up delay-2">
+          <div class="process-number">2</div>
+          <h3>Build</h3>
+          <p>Iterative development with <strong>secure CI/CD pipelines</strong>, automated testing, and continuous deployment.</p>
+        </div>
+        <div class="process-step fade-up delay-3">
+          <div class="process-number">3</div>
+          <h3>Operate</h3>
+          <p>24×7 monitoring, optimization, and managed evolution.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="shell">
+      <div class="section-header fade-up">
+        <h2 class="section-title">Core Capabilities</h2>
+        <p class="section-subtitle">End-to-end expertise across modern technology stacks.</p>
+      </div>
+      
+      <!-- 3-COLUMN GRID -->
+      <div class="cards">
+        
+        <!-- 1. App Mod -->
+        <div class="card fade-up delay-1">
+          <div class="icon">🧩</div>
+          <h3>App Modernization</h3>
+          <p style="color:var(--text-muted)">Modern web & mobile apps using React, Node, and Cloud-native patterns.</p>
+          <div class="tags"><span class="tag">React</span><span class="tag">Node</span><span class="tag">Cloud</span></div>
+        </div>
+        
+        <!-- 2. DB Services -->
+        <div class="card fade-up delay-2">
+          <div class="icon">🗄️</div>
+          <h3>Database Services</h3>
+          <p style="color:var(--text-muted)">Schema design, migrations, and 24x7 operations for SQL/NoSQL.</p>
+          <div class="tags"><span class="tag">SQL</span><span class="tag">NoSQL</span><span class="tag">Ops</span></div>
+        </div>
+
+        <!-- 3. Cloud Infrastructure -->
+        <div class="card fade-up delay-3">
+          <div class="icon">☁️</div>
+          <h3>Cloud Infrastructure</h3>
+          <p style="color:var(--text-muted)">Resilient architecture on AWS/Azure with automated IaC and scaling.</p>
+          <div class="tags"><span class="tag">AWS/Azure</span><span class="tag">Terraform</span><span class="tag">K8s</span></div>
+        </div>
+        
+        <!-- 4. Analytics -->
+        <div class="card fade-up delay-1">
+          <div class="icon">📊</div>
+          <h3>Analytics & Reporting</h3>
+          <p style="color:var(--text-muted)">Data pipelines, semantic layers, and real-time BI dashboards.</p>
+          <div class="tags"><span class="tag">BI</span><span class="tag">Pipelines</span><span class="tag">Data</span></div>
+        </div>
+        
+        <!-- 5. Agentic AI -->
+        <div class="card fade-up delay-2">
+          <div class="icon">🤖</div>
+          <h3>Agentic AI</h3>
+          <p style="color:var(--text-muted)">Workflow automation and intelligent chat integrations.</p>
+          <div class="tags"><span class="tag">AI</span><span class="tag">Chatbots</span><span class="tag">RPA</span></div>
+        </div>
+
+        <!-- 6. Salesforce -->
+        <div class="card fade-up delay-3">
+          <div class="icon">⚡</div>
+          <h3>Salesforce</h3>
+          <p style="color:var(--text-muted)">Apex automation, custom flows, and managed platform releases.</p>
+          <div class="tags"><span class="tag">Apex</span><span class="tag">LWC</span><span class="tag">Flow</span></div>
+        </div>
+
+        <!-- 7. Enterprise Security -->
+        <div class="card fade-up delay-1">
+          <div class="icon">🛡️</div>
+          <h3>Enterprise Security</h3>
+          <p style="color:var(--text-muted)">Zero-trust architecture, identity management (IAM), and financial-grade encryption.</p>
+          <div class="tags"><span class="tag">SecOps</span><span class="tag">IAM</span><span class="tag">Compliance</span></div>
+        </div>
+        
+        <!-- 8. Project Management -->
+        <div class="card fade-up delay-2">
+          <div class="icon">🧭</div>
+          <h3>Project Management</h3>
+          <p style="color:var(--text-muted)">Technical roadmapping, governance, and delivery leadership.</p>
+          <div class="tags"><span class="tag">Agile</span><span class="tag">Roadmap</span><span class="tag">PMO</span></div>
+        </div>
+
+        <!-- 9. Experience Design -->
+        <div class="card fade-up delay-3">
+          <div class="icon">✨</div>
+          <h3>Experience Design</h3>
+          <p style="color:var(--text-muted)">Intuitive, accessible interfaces designed for complex enterprise workflows.</p>
+          <div class="tags"><span class="tag">UI/UX</span><span class="tag">Figma</span><span class="tag">Prototyping</span></div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- LEADERSHIP SECTION -->
+  <section id="team">
+    <div class="shell">
+      <div class="team-grid">
+        
+        <div class="team-bio fade-up delay-1">
+          <div class="pill">● The Team Factor</div>
+          <h3>Led by masters of the craft.</h3>
+          <p>
+            NSolv is driven by a core team of industry leaders who excel in their respective domains. With an <strong>average of 18+ years of experience</strong>, we bring comprehensive, all-round expertise to every engagement.
+          </p>
+          <p>
+            We don't just write code; we become your Subject Matter Experts. From the initial whiteboard sketch to the final production release, we guide your initiative from <strong>inception to completion</strong> with the precision that only decades of practice can provide.
+          </p>
+          <div class="quote-box">
+            "True expertise isn't just knowing how to build it—it's knowing why. We bring decades of cross-industry mastery to every decision we make."
+          </div>
+        </div>
+
+        <div class="team-cards fade-up delay-2">
+          <!-- Card 1 -->
+          <div class="profile-card">
+            <div class="p-header">
+              <div class="avatar">PA</div>
+              <div><div class="p-role">Principal Architect</div><div class="p-exp">20+ Years Exp.</div></div>
+            </div>
+            <p style="font-size:0.85rem; color:#9ca3af; margin-bottom:12px; line-height:1.4;">Strategic oversight for legacy migrations (VB6 to Oracle) and cloud-native system design.</p>
+            <div class="skill-list"><span class="s-tag">System Design</span><span class="s-tag">Oracle PL/SQL</span><span class="s-tag">Modernization</span></div>
+          </div>
+          <!-- Card 2 -->
+          <div class="profile-card">
+            <div class="p-header">
+              <div class="avatar">DL</div>
+              <div><div class="p-role">Delivery Lead</div><div class="p-exp">18+ Years Exp.</div></div>
+            </div>
+            <p style="font-size:0.85rem; color:#9ca3af; margin-bottom:12px; line-height:1.4;">Ensures operational excellence, security compliance, and seamless CI/CD delivery pipelines.</p>
+            <div class="skill-list"><span class="s-tag">DevSecOps</span><span class="s-tag">Agile</span><span class="s-tag">Governance</span></div>
+          </div>
+          <!-- Card 3 -->
+          <div class="profile-card">
+            <div class="p-header">
+              <div class="avatar">DS</div>
+              <div><div class="p-role">Data Services SME</div><div class="p-exp">22+ Years Exp.</div></div>
+            </div>
+            <p style="font-size:0.85rem; color:#9ca3af; margin-bottom:12px; line-height:1.4;">Expert in high-volume data warehousing, ETL pipelines, and complex schema optimization.</p>
+            <div class="skill-list"><span class="s-tag">Data Modeling</span><span class="s-tag">ETL/ELT</span><span class="s-tag">Performance</span></div>
+          </div>
+          <!-- Card 4 -->
+          <div class="profile-card">
+            <div class="p-header">
+              <div class="avatar">SF</div>
+              <div><div class="p-role">Salesforce SME</div><div class="p-exp">16+ Years Exp.</div></div>
+            </div>
+            <p style="font-size:0.85rem; color:#9ca3af; margin-bottom:12px; line-height:1.4;">Specialist in CRM architecture, Apex automation, and LWC custom integration.</p>
+            <div class="skill-list"><span class="s-tag">Apex</span><span class="s-tag">Architecture</span><span class="s-tag">Integrations</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- UPDATED CONTACT SECTION -->
+  <section id="contact">
+    <div class="shell">
+      <div class="contact-grid">
+        
+        <!-- Contact Left -->
+        <div class="contact-left fade-up delay-1">
+          <div>
+            <h2 style="font-size:2.8rem; line-height:1.1; margin-bottom:20px; font-weight:800;">Accelerate your roadmap with confidence.</h2>
+            <p style="color:var(--text-muted); font-size:1.2rem; margin-bottom:40px;">
+              Don't let legacy code slow you down. Schedule a discovery call to discuss your architecture, AI opportunities, and migration strategy.
+            </p>
+            <div style="background:var(--bg-card);padding:30px;border-radius:20px;border:1px solid var(--border);">
+              <p style="font-size:1.1rem;"><strong>📧 info@nsolv.com</strong></p>
+            </div>
+          </div>
+
+          <!-- reCAPTCHA disclaimer pinned at bottom -->
+          <div class="recaptcha-legal">
+            This site is protected by reCAPTCHA and the Google
+            <a href="https://policies.google.com/privacy" target="_blank">Privacy Policy</a> and
+            <a href="https://policies.google.com/terms" target="_blank">Terms of Service</a> apply.
+          </div>
+        </div>
+        
+        <!-- Contact Right (Form) -->
+        <div class="fade-up delay-2">
+          <form id="contactForm">
+            <!-- Invisible reCAPTCHA container -->
+            <div id="recaptcha-container" style="display:none;"></div>
+            
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;" class="form-group">
+              <div>
+                <input type="text" id="firstName" name="firstName" placeholder="First Name">
+                <span class="error-text hidden" id="firstNameError"></span>
+              </div>
+              <div>
+                <input type="text" id="lastName" name="lastName" placeholder="Last Name">
+                <span class="error-text hidden" id="lastNameError"></span>
+              </div>
+            </div>
+            
+            <div class="form-group">
+              <input type="email" id="email" name="email" placeholder="Email Address">
+              <span class="error-text hidden" id="emailError"></span>
+            </div>
+
+            <div class="form-group">
+              <select id="subject" name="Focus Area">
+                <option value="" disabled selected>Select Focus Area...</option>
+                <option>Application Modernization</option>
+                <option>Custom Development</option>
+                <option>Database Services</option>
+                <option>Cloud Migration and Support</option>
+                <option>Agentic AI</option>
+                <option>e-Commerce</option>
+                <option>Salesforce</option>
+                <option>Analytics and Reporting</option>
+                <option>Proposal Support</option>
+                <option>Project Management and Architecture</option>
+                <option>Staffing Services</option>
+              </select>
+              <span class="error-text hidden" id="subjectError"></span>
+            </div>
+
+            <div class="form-group">
+              <textarea id="message" name="message" placeholder="Project Details..." rows="4"></textarea>
+              <span class="error-text hidden" id="messageError"></span>
+            </div>
+
+            <button id="submitBtn" class="cta" style="width:100%;">Schedule a call</button>
+            
+            <div id="successBox" class="status-box hidden"></div>
+          </form>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <div class="shell">
+    <div class="footer-grid">
+      <div class="footer-col">
+        <h4>NSolv</h4>
+        <p>Enterprise delivery for the modern era.</p>
+      </div>
+      <div class="footer-col">
+        <h4>Services</h4>
+        <ul>
+          <li><a href="#">App Modernization</a></li>
+          <li><a href="#">Data Services</a></li>
+          <li><a href="#">AI Automation</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Company</h4>
+        <ul>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Careers</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div class="footer-col">
+        <h4>Legal</h4>
+        <ul>
+          <li><a href="#">Privacy Policy</a></li>
+          <li><a href="#">Terms of Service</a></li>
+        </ul>
+      </div>
+    </div>
+    <div style="margin-top:60px; padding-top:20px; border-top:1px solid rgba(255,255,255,0.05);">
+      &copy; 2025 NSolv. All rights reserved.
+    </div>
+  </div>
+</footer>
+
+<script>
+  // --- NAV LOGIC ---
+  const toggle = document.getElementById('navToggle');
+  const body = document.body;
+  toggle.addEventListener('click', () => { body.classList.toggle('nav-open'); toggle.textContent = body.classList.contains('nav-open') ? '✕' : '☰'; });
+  document.querySelectorAll('.m-link').forEach(l => { l.addEventListener('click', () => { body.classList.remove('nav-open'); toggle.textContent = '☰'; }); });
+
+  const backToTopBtn = document.getElementById('backToTop');
+  window.addEventListener('scroll', () => { if (window.scrollY > 300) { backToTopBtn.classList.add('show'); } else { backToTopBtn.classList.remove('show'); } });
+
+  const navLinks = document.querySelectorAll('.nav-link');
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        navLinks.forEach(link => link.classList.remove('active'));
+        const id = entry.target.getAttribute('id');
+        const activeLink = document.querySelector(`.nav-link[href="#${id}"]`);
+        if (activeLink) activeLink.classList.add('active');
+      }
+    });
+  }, { threshold: 0.25 });
+  document.querySelectorAll('section').forEach(section => observer.observe(section));
+
+  const fadeObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => { if (entry.isIntersecting) entry.target.classList.add('visible'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => fadeObserver.observe(el));
+
+
+  // --- FORM & RECAPTCHA LOGIC ---
+  const form = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const successBox = document.getElementById('successBox');
+
+  // Form fields with error elements
+  const fields = [
+    { input: document.getElementById('firstName'), error: document.getElementById('firstNameError'), name: 'First name' },
+    { input: document.getElementById('lastName'), error: document.getElementById('lastNameError'), name: 'Last name' },
+    { input: document.getElementById('email'), error: document.getElementById('emailError'), name: 'Email' },
+    { input: document.getElementById('subject'), error: document.getElementById('subjectError'), name: 'Focus Area' },
+    { input: document.getElementById('message'), error: document.getElementById('messageError'), name: 'Message' },
+  ];
+
+  // Show / hide error messages
+  function showError(field, msg) {
+    field.error.textContent = msg;
+    field.error.classList.remove('hidden');
+    field.input.classList.add('is-invalid');
+  }
+
+  function clearError(field) {
+    field.error.textContent = '';
+    field.error.classList.add('hidden');
+    field.input.classList.remove('is-invalid');
+  }
+
+  // Field validation
+  function validateField(field) {
+    if (!field.input.value.trim()) {
+      showError(field, `${field.name} is required`);
+      return false;
+    }
+    if (field.input.type === 'email' && !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(field.input.value)) {
+      showError(field, 'Please enter a valid email');
+      return false;
+    }
+    clearError(field);
+    return true;
+  }
+
+  // Validate fields on input
+  fields.forEach(f => f.input.addEventListener('input', () => validateField(f)));
+
+  // Initialize reCAPTCHA
+  let recaptchaWidgetId;
+  window.onload = () => {
+    if(typeof grecaptcha !== 'undefined') {
+      recaptchaWidgetId = grecaptcha.render('recaptcha-container', {
+        sitekey: '6LeOpDwsAAAAAEqopATuhS7MbyP44PkPnPJK2rV_', 
+        size: 'invisible',
+        callback: onSubmit
+      });
+    }
+  };
+
+  // Prevent multiple submissions
+  let sending = false;
+
+  // Button click triggers validation + reCAPTCHA
+  submitBtn.addEventListener('click', (e) => {
+    e.preventDefault();
+    if (sending) return;
+
+    let valid = true;
+    fields.forEach(f => { if (!validateField(f)) valid = false; });
+    if (!valid) return;
+
+    if(typeof grecaptcha !== 'undefined') {
+      grecaptcha.execute(recaptchaWidgetId);
+    } else {
+      console.error('reCAPTCHA not loaded');
+    }
+  });
+
+  // Submission after reCAPTCHA success
+  async function onSubmit(token) {
+    sending = true;
+    submitBtn.textContent = "Sending...";
+    successBox.classList.add('hidden');
+
+    const data = Object.fromEntries(new FormData(form));
+    data.recaptchaToken = token;
+
+    try {
+      const res = await fetch('https://send-email.nsolvit.workers.dev', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(data)
+      });
+
+      const text = await res.text();
+      const result = text ? JSON.parse(text) : {};
+
+      if (res.ok && result.success) {
+        form.reset();
+        successBox.textContent = 'Your message has been sent successfully!';
+        successBox.classList.remove('hidden', 'error');
+        successBox.classList.add('success');
+      } else {
+        throw new Error(result.error || 'Failed to send message.');
+      }
+    } catch (err) {
+      successBox.textContent = 'Error: ' + err.message;
+      successBox.classList.remove('hidden', 'success');
+      successBox.classList.add('error');
+    } finally {
+      sending = false;
+      submitBtn.textContent = "Schedule a call";
+    }
+  }
+</script>
+
+</body>
+</html>
