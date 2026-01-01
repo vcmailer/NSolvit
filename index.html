@@ -853,7 +853,7 @@
     data.recaptchaToken = token;
 
     try {
-      const res = await fetch('https://send-email.nsolvit.workers.dev', {
+      const res = await fetch('https://nsolvitprodemail.vcmailerpro.workers.dev', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(data)
