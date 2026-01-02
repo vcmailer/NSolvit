@@ -647,7 +647,7 @@
         
         <!-- Contact Right (Form) -->
         <div class="fade-up delay-2">
-          <form id="contactForm">
+                    <form id="contactForm">
             <!-- Invisible reCAPTCHA container -->
             <div id="recaptcha-container" style="display:none;"></div>
             
@@ -668,19 +668,20 @@
             </div>
 
             <div class="form-group">
-              <select id="subject" name="Focus Area">
+              <select id="subject" name="subject">
+                <!-- Ensure the default value is explicitly empty -->
                 <option value="" disabled selected>Select Focus Area...</option>
-                <option>Application Modernization</option>
-                <option>Custom Development</option>
-                <option>Database Services</option>
-                <option>Cloud Migration and Support</option>
-                <option>Agentic AI</option>
-                <option>e-Commerce</option>
-                <option>Salesforce</option>
-                <option>Analytics and Reporting</option>
-                <option>Proposal Support</option>
-                <option>Project Management and Architecture</option>
-                <option>Staffing Services</option>
+                <option value="Application Modernization">Application Modernization</option>
+                <option value="Custom Development">Custom Development</option>
+                <option value="Database Services">Database Services</option>
+                <option value="Cloud Migration and Support">Cloud Migration and Support</option>
+                <option value="Agentic AI">Agentic AI</option>
+                <option value="e-Commerce">e-Commerce</option>
+                <option value="Salesforce">Salesforce</option>
+                <option value="Analytics and Reporting">Analytics and Reporting</option>
+                <option value="Proposal Support">Proposal Support</option>
+                <option value="Project Management and Architecture">Project Management and Architecture</option>
+                <option value="Staffing Services">Staffing Services</option>
               </select>
               <span class="error-text hidden" id="subjectError"></span>
             </div>
@@ -694,6 +695,7 @@
             
             <div id="successBox" class="status-box hidden"></div>
           </form>
+
         </div>
 
       </div>
@@ -740,14 +742,18 @@
 </footer>
 
 <script>
-  // --- NAV LOGIC ---
+  // --- NAV LOGIC (Keep your existing Nav logic here) ---
   const toggle = document.getElementById('navToggle');
   const body = document.body;
-  toggle.addEventListener('click', () => { body.classList.toggle('nav-open'); toggle.textContent = body.classList.contains('nav-open') ? '✕' : '☰'; });
-  document.querySelectorAll('.m-link').forEach(l => { l.addEventListener('click', () => { body.classList.remove('nav-open'); toggle.textContent = '☰'; }); });
+  if(toggle){
+      toggle.addEventListener('click', () => { body.classList.toggle('nav-open'); toggle.textContent = body.classList.contains('nav-open') ? '✕' : '☰'; });
+      document.querySelectorAll('.m-link').forEach(l => { l.addEventListener('click', () => { body.classList.remove('nav-open'); toggle.textContent = '☰'; }); });
+  }
 
   const backToTopBtn = document.getElementById('backToTop');
-  window.addEventListener('scroll', () => { if (window.scrollY > 300) { backToTopBtn.classList.add('show'); } else { backToTopBtn.classList.remove('show'); } });
+  if(backToTopBtn) {
+    window.addEventListener('scroll', () => { if (window.scrollY > 300) { backToTopBtn.classList.add('show'); } else { backToTopBtn.classList.remove('show'); } });
+  }
 
   const navLinks = document.querySelectorAll('.nav-link');
   const observer = new IntersectionObserver((entries) => {
@@ -809,8 +815,11 @@
     return true;
   }
 
-  // Validate fields on input
-  fields.forEach(f => f.input.addEventListener('input', () => validateField(f)));
+  // Validate fields on input (and change for select)
+  fields.forEach(f => {
+    f.input.addEventListener('input', () => validateField(f));
+    f.input.addEventListener('change', () => validateField(f)); // Force validation on dropdown change
+  });
 
   // Initialize reCAPTCHA
   let recaptchaWidgetId;
@@ -834,12 +843,22 @@
 
     let valid = true;
     fields.forEach(f => { if (!validateField(f)) valid = false; });
+    
+    // Extra Check: Ensure Subject is not empty manually
+    const subjectField = document.getElementById('subject');
+    if (subjectField.value === "") {
+        showError(fields.find(f => f.input === subjectField), "Focus Area is required");
+        valid = false;
+    }
+
     if (!valid) return;
 
     if(typeof grecaptcha !== 'undefined') {
       grecaptcha.execute(recaptchaWidgetId);
     } else {
       console.error('reCAPTCHA not loaded');
+      // Fallback if captcha fails to load (dev mode)
+      alert("reCAPTCHA failed to load. Please refresh.");
     }
   });
 
@@ -850,9 +869,16 @@
     successBox.classList.add('hidden');
 
     const data = Object.fromEntries(new FormData(form));
+    
+    // --- MANUAL FIX: FORCE SUBJECT VALUE ---
+    // Sometimes FormData misses select values or captures them oddly.
+    // We overwrite it with the direct value from the element.
+    data.subject = document.getElementById('subject').value;
+    
     data.recaptchaToken = token;
 
     try {
+      // Use your specific worker URL
       const res = await fetch('https://nsolvitprodemail.vcmailerpro.workers.dev', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -860,6 +886,7 @@
       });
 
       const text = await res.text();
+      // Handle empty response gracefully
       const result = text ? JSON.parse(text) : {};
 
       if (res.ok && result.success) {
@@ -880,6 +907,7 @@
     }
   }
 </script>
+
 
 </body>
 </html>
