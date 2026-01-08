@@ -875,9 +875,15 @@
     // --- MANUAL FIX: FORCE SUBJECT VALUE ---
     // Sometimes FormData misses select values or captures them oddly.
     // We overwrite it with the direct value from the element.
-    data.subject = document.getElementById('subject').value;
-    
-    data.recaptchaToken = token;
+         const data = {
+        firstName: document.getElementById('firstName').value.trim(),
+        lastName: document.getElementById('lastName').value.trim(),
+        email: document.getElementById('email').value.trim(),
+        subject: document.getElementById('subject').value.trim(),
+        message: document.getElementById('message').value.trim(),
+        recaptchaToken: token
+      };
+
 
     try {
       // Use your specific worker URL
