@@ -870,8 +870,7 @@
     submitBtn.textContent = "Sending...";
     successBox.classList.add('hidden');
 
-    const data = Object.fromEntries(new FormData(form));
-    
+   
     // --- MANUAL FIX: FORCE SUBJECT VALUE ---
     // Sometimes FormData misses select values or captures them oddly.
     // We overwrite it with the direct value from the element.
